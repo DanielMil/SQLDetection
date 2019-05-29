@@ -7,3 +7,4 @@ TODO:
 - [] Lots more training data needed.
 - [] Endpoint to return training data.
 - [] Endpoint error handling.
+- [] Simple configuration to train model with new training data.
