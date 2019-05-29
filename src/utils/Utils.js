@@ -62,4 +62,8 @@ export default class Utils {
             '%_chance_of_injection': chanceOfSQL
         }
     }
-}
+
+    stripQuotesFromInput(inputString) {
+        return inputString.replace(/['"]+/g, '');
+    }
+} 

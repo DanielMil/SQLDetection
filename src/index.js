@@ -21,13 +21,23 @@ const trainingData = [
 
 const utilClass = new Utils();
 const CustomKnn = new CustomKNN();
-console.log(CustomKnn.determineCompatabilityScore(2,3));
 
-app.post('/ValidateInput', (req,res) => {
+// Create different endpoints for the different models
+// Maybe also a common endpoint that compares the different models
+app.post('/ValidateInput/BrainJs', (req,res) => {
     const data = JSON.stringify(req.body.input);
-    const testData = utilClass.serializeInputSentence(trainingData, data);
+    const formattedData = utilClass.stripQuotesFromInput(data);
+    const testData = utilClass.serializeInputSentence(trainingData, formattedData);
     const result = trainedNet(testData);
     const output = utilClass.formatOutput(result);
+    res.json(output);
+});
+
+app.post('/ValidateInput/CustomKNN', (req, res) => {
+    const data = JSON.stringify(req.body.input);
+    const formattedData = utilClass.stripQuotesFromInput(data);
+    const result = CustomKnn.runKNNModel(utilClass.serializeInputSentence(trainingData, formattedData), trainingData);
+    const output = CustomKnn.formatOutput(result);
     res.json(output);
 });
 

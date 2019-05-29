@@ -10,6 +10,10 @@ const validInputs = [
     {
       input: "myfavouritepassword",
       output: [0]
+    },
+    {
+      input: "Daniel",
+      output: [0]
     }
 ];
 export default validInputs; 
