@@ -1,63 +1,59 @@
-'use strict'
-
-import Utils from './Utils'
-
-export default class CustomKNN {
-
-    constructor() {
-        this.utils = new Utils();
+'use strict';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Utils_1 = __importDefault(require("./Utils"));
+var CustomKNN = /** @class */ (function () {
+    function CustomKNN() {
+        this.utils = new Utils_1.default();
     }
-
-    runKNNModel(testInput, trainingData) {
-        const trainingObject = this.utils.generateTrainingObject(trainingData);
+    CustomKNN.prototype.runKNNModel = function (testInput, trainingData) {
+        var trainingObject = this.utils.generateTrainingObject(trainingData);
         this.getCompatibilityRatings(testInput, trainingObject);
         this.findMostCompatible(trainingObject);
         return trainingObject[0];
-    }
-
-    getCompatibilityRatings(testInput, trainingObject) {
-        const size = trainingObject.length;
-        for (let i = 0; i < size; i++) {
+    };
+    CustomKNN.prototype.getCompatibilityRatings = function (testInput, trainingObject) {
+        var size = trainingObject.length;
+        for (var i = 0; i < size; i++) {
             trainingObject[i]["compatibilityScore"] = this.determinecompatibilityScore(testInput, trainingObject[i].input);
         }
-    }
-
+    };
     // Applies Euclidean distance to determine compatibility score
-    determinecompatibilityScore(a, b) {
-        let compatibilityScore = 0;
-        for (let i = 0; i < a.length; i++) {
-            let diff = a[i] - b[i];
-            let pow = diff * diff; 
+    CustomKNN.prototype.determinecompatibilityScore = function (a, b) {
+        var compatibilityScore = 0;
+        for (var i = 0; i < a.length; i++) {
+            var diff = a[i] - b[i];
+            var pow = diff * diff;
             compatibilityScore += pow;
         }
         return this.getInverse(Math.sqrt(compatibilityScore));
-    }
-
-    findMostCompatible(trainingObject) {
-        return trainingObject.sort((a,b) => {
+    };
+    CustomKNN.prototype.findMostCompatible = function (trainingObject) {
+        return trainingObject.sort(function (a, b) {
             return b.compatibilityScore - a.compatibilityScore;
         })[0];
-    }
-
-    getInverse(x) {
-        return 1 / (1 + x); 
-    }
-
-    revertArrayToString(numArray) {
-        let charArr = numArray.map((num) => {
-            if (num === 0) return '';
-            return String.fromCharCode(num*255);
+    };
+    CustomKNN.prototype.getInverse = function (x) {
+        return 1 / (1 + x);
+    };
+    CustomKNN.prototype.revertArrayToString = function (numArray) {
+        var charArr = numArray.map(function (num) {
+            if (num === 0)
+                return '';
+            return String.fromCharCode(num * 255);
         });
         return charArr.join('').trim('');
-    }
-
-    formatOutput(outputObject) {
-        const output = outputObject.output[0];
+    };
+    CustomKNN.prototype.formatOutput = function (outputObject) {
+        var output = outputObject.output[0];
         return {
             "output": output === 1 ? "Likely a SQLInjection" : "Likely a valid input",
-            "mostSimilarlyResembles": this.revertArrayToString(outputObject.input), 
+            "mostSimilarlyResembles": this.revertArrayToString(outputObject.input),
             "compatibilityScore": outputObject.compatibilityScore
-        }
-    }
-
-}
+        };
+    };
+    return CustomKNN;
+}());
+exports.default = CustomKNN;

@@ -1,69 +1,65 @@
 'use strict';
-
-export default class Utils {
-
-    encodeNumber(sentence) {
-        return sentence.split('').map(char => {
-            if (char == '#') 
+Object.defineProperty(exports, "__esModule", { value: true });
+var Utils = /** @class */ (function () {
+    function Utils() {
+    }
+    Utils.prototype.encodeNumber = function (sentence) {
+        return sentence.split('').map(function (char) {
+            if (char == '#')
                 return 0;
             return char.charCodeAt(0) / 255;
         });
-    }
-
-    fixSentenceLength(trainingData) {
-        let inputArr = this.generateInputArray(trainingData); 
-        const maxLength = this.getLongestSentenceLength(inputArr);
-        for (let set = 0; set < trainingData.length; set++) {
+    };
+    Utils.prototype.fixSentenceLength = function (trainingData) {
+        var inputArr = this.generateInputArray(trainingData);
+        var maxLength = this.getLongestSentenceLength(inputArr);
+        for (var set = 0; set < trainingData.length; set++) {
             if (trainingData[set].input.length != maxLength) {
                 trainingData[set].input = this.serializeSentence(trainingData[set].input, maxLength);
             }
         }
-    }
-
-    serializeSentence(sentence, maxLength) {
+    };
+    Utils.prototype.serializeSentence = function (sentence, maxLength) {
         return sentence.padEnd(maxLength, '#');
-    }
-
-    getLongestSentenceLength(sentenceArr) {
-        let sizeArr = sentenceArr.map(sentence => {
+    };
+    Utils.prototype.getLongestSentenceLength = function (sentenceArr) {
+        var sizeArr = sentenceArr.map(function (sentence) {
             return sentence.length;
-        }).sort((a,b) => {
-            return b-a;
+        }).sort(function (a, b) {
+            return b - a;
         });
         return sizeArr[0];
-    }
-
-    generateTrainingObject(trainingData) {
-        let mutableData = trainingData;
+    };
+    Utils.prototype.generateTrainingObject = function (trainingData) {
+        var _this = this;
+        var mutableData = trainingData;
         this.fixSentenceLength(mutableData);
-        return mutableData.map((mutableDataSet) =>{
+        return mutableData.map(function (mutableDataSet) {
             return {
-                input: this.encodeNumber(mutableDataSet.input),
+                input: _this.encodeNumber(mutableDataSet.input),
                 output: mutableDataSet.output
-            }
+            };
         });
-    }
-
-    generateInputArray(trainingData) {
-        return trainingData.map((trainingSet) => {
-            return trainingSet.input; 
+    };
+    Utils.prototype.generateInputArray = function (trainingData) {
+        return trainingData.map(function (trainingSet) {
+            return trainingSet.input;
         });
-    }
-
-    serializeInputSentence(trainingData, sentence) {
-        let inputArr = this.generateInputArray(trainingData); 
-        const maxLength = this.getLongestSentenceLength(inputArr);
+    };
+    Utils.prototype.serializeInputSentence = function (trainingData, sentence) {
+        var inputArr = this.generateInputArray(trainingData);
+        var maxLength = this.getLongestSentenceLength(inputArr);
         return this.encodeNumber(this.serializeSentence(sentence, maxLength));
-    }
-
-    formatOutput(chanceOfSQL) {
+    };
+    Utils.prototype.formatOutput = function (chanceOfSQL) {
         chanceOfSQL *= 100;
         return {
             '%_chance_of_injection': chanceOfSQL
-        }
-    }
-
-    stripQuotesFromInput(inputString) {
+        };
+    };
+    Utils.prototype.stripQuotesFromInput = function (inputString) {
         return inputString.replace(/['"]+/g, '');
-    }
-} 
+    };
+    return Utils;
+}());
+exports.default = Utils;
