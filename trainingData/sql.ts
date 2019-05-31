@@ -1,4 +1,6 @@
-const sqlData = [
+import { TrainingObject } from "../src/utils/interfaces";
+
+const sqlData: Array<TrainingObject> = [
     {
       input: "SELECT * FROM USER WHERE NAME=TOM",
       output: [1]

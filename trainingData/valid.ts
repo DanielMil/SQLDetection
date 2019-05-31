@@ -1,4 +1,6 @@
-const validInputs = [
+import { TrainingObject } from "../src/utils/interfaces";
+
+const validInputs: Array<TrainingObject> = [
     {
       input: "Tom",
       output: [0]
